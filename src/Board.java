@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import javax.swing.*;
 
@@ -41,6 +42,59 @@ public class Board extends JPanel {
         this.statusbar = statubar;
         initBoard();
     }
+
+    private initBoard() {
+        setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
+        img = new Image[NUM_IMAGES];
+
+        for (int i = 0; i < NUM_IMAGES; i++) {
+            var path = 'src/resources/' + i + '.png';
+            img[i] = (new ImageIcon(path).getImage());
+        }
+        addMouseListener(new MinesAdapter());
+        newGame();
+    })
+
+    private void newGame () {
+        int cell;
+        var random = new Random();
+        inGame = true;
+        minesLeft = N_MINES;
+        allCells = N_ROWS * N_COLS;
+        field = new int[allCells];
+
+        for (int i = 0; i < allCells; i++) {
+            field[i] = COVER_FOR_CELL;
+        }
+
+        statusbar.setText(Integer.toString(minesLeft));
+
+        int i = 0;
+        while (i < N_MINES) {
+            int position = (int) (allCells * random.nextDouble());
+            if ((position < allCells) && (field[position] != COVERED_MINE_CELL)) {
+                int current_col = position % N_COLS;
+                field[position] = COVERED_MINE_CELL;
+                i++;
+            }
+    }
+
+    private void find_empty_cells(int j) {
+        //to be added
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        //to be added
+    }
+
+    private class MinesAdapter extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            //to be added
+        }
+    }
+}
 
 
 
