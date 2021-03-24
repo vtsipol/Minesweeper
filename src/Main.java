@@ -1,5 +1,3 @@
-package be.kuleuven.groept;
-
 import java.awt.*;
 import javax.swing.*;
 
