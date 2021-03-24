@@ -1,3 +1,5 @@
+package be.kuleuven.groept;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -55,7 +57,7 @@ public class Board extends JPanel {
         newGame();
     }
 
-    private void newGame () {
+    private void newGame() {
         int cell;
         var random = new Random();
         inGame = true;
@@ -138,7 +140,7 @@ public class Board extends JPanel {
         int cell;
 
         if (current_col > 0) {
-            cell = j - N_COLS -1;
+            cell = j - N_COLS - 1;
             if (cell >= 0) {
                 if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
@@ -217,9 +219,43 @@ public class Board extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        //to be added
-    }
+        int uncover = 0;
 
+        for (int i = 0; i < N_ROWS; i++) {
+            for (int j = 0; j < N_COLS; j++) {
+                int cell = field[(i * N_COLS) + j];
+
+                if (inGame && cell == MINE_CELL) {
+                    inGame = false;
+                }
+                if (!inGame) {
+                    if (cell == COVERED_MINE_CELL) {
+                        cell = DRAW_MINE;
+                    } else if (cell == MARKED_MINE_CELL) {
+                        cell = DRAW_MARK;
+                    } else if (cell > COVERED_MINE_CELL) {
+                        cell = DRAW_WRONG_MARK;
+                    } else if (cell > MINE_CELL) {
+                        cell = DRAW_COVER;
+                    }
+                } else {
+                    if (cell > COVERED_MINE_CELL) {
+                        cell = DRAW_MARK;
+                    } else if (cell > MINE_CELL) {
+                        cell = DRAW_COVER;
+                        uncover++;
+                    }
+                    g.drawImage(img[cell], (j * CELL_SIZE), (i * CELL_SIZE), this);
+                    if (uncover == 0 && inGame) {
+                        inGame = false;
+                        statusbar.setText("Game won!");
+                    } else if (!inGame) {
+                        statusbar.setText("Game lost!");
+                    }
+                }
+            }
+        }
+    }
     private class MinesAdapter extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
