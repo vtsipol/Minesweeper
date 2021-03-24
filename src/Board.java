@@ -43,17 +43,17 @@ public class Board extends JPanel {
         initBoard();
     }
 
-    private initBoard() {
+    private void initBoard() {
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
         img = new Image[NUM_IMAGES];
 
         for (int i = 0; i < NUM_IMAGES; i++) {
-            var path = 'src/resources/' + i + '.png';
+            var path = "src/resources/" + i + ".png";
             img[i] = (new ImageIcon(path).getImage());
         }
         addMouseListener(new MinesAdapter());
         newGame();
-    })
+    }
 
     private void newGame () {
         int cell;
@@ -76,7 +76,61 @@ public class Board extends JPanel {
                 int current_col = position % N_COLS;
                 field[position] = COVERED_MINE_CELL;
                 i++;
+
+                if (current_col > 0) {
+                    cell = position - 1 - N_COLS;
+                    if (cell >= 0) {
+                        if (field[cell] != COVERED_MINE_CELL) {
+                            field[cell] += 1;
+                        }
+                    }
+                    cell = position - 1;
+                    if (cell >= 0) {
+                        if (field[cell] != COVERED_MINE_CELL) {
+                            field[cell] += 1;
+                        }
+                    }
+                    cell = position + N_COLS - 1;
+                    if (cell < allCells) {
+                        if (field[cell] != COVERED_MINE_CELL) {
+                            field[cell] += 1;
+                        }
+                    }
+                }
+                cell = position - N_COLS;
+                if (cell >= 0) {
+                    if (field[cell] != COVERED_MINE_CELL) {
+                        field[cell] += 1;
+                    }
+                }
+                cell = position + N_COLS;
+                if (cell < allCells) {
+                    if (field[cell] != COVERED_MINE_CELL) {
+                        field[cell] += 1;
+                    }
+                }
+                if (current_col < (N_COLS - 1)) {
+                    cell = position - N_COLS + 1;
+                    if (cell >= 0) {
+                        if (field[cell] != COVERED_MINE_CELL) {
+                            field[cell] += 1;
+                        }
+                    }
+                    cell = position + N_COLS + 1;
+                    if (cell < allCells) {
+                        if (field[cell] != COVERED_MINE_CELL) {
+                            field[cell] += 1;
+                        }
+                    }
+                    cell = position + 1;
+                    if (cell < allCells) {
+                        if (field[cell] != COVERED_MINE_CELL) {
+                            field[cell] += 1;
+                        }
+                    }
+                }
             }
+        }
     }
 
     private void find_empty_cells(int j) {
@@ -187,7 +241,7 @@ public class Board extends JPanel {
                     if (field[(cRow * N_COLS) + cCol] > MINE_CELL) {
                         doRepaint = true;
 
-                        if (field[cRow * N_COLS) + cCol] <= COVERED_MINE_CELL){
+                        if (field[(cRow * N_COLS) + cCol] <= COVERED_MINE_CELL) {
                             if (minesLeft > 0) {
                                 field[(cRow * N_COLS) + cCol] += MARK_FOR_CELL;
                                 minesLeft--;
@@ -224,29 +278,4 @@ public class Board extends JPanel {
             }
         }
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
