@@ -243,15 +243,16 @@ public class Board extends JPanel {
                         cell = DRAW_COVER;
                         uncover++;
                     }
-                    g.drawImage(img[cell], (j * CELL_SIZE), (i * CELL_SIZE), this);
-                    if (uncover == 0 && inGame) {
-                        inGame = false;
-                        statusbar.setText("Game won!");
-                    } else if (!inGame) {
-                        statusbar.setText("Game lost!");
-                    }
                 }
+                g.drawImage(img[cell], (j * CELL_SIZE),
+                        (i * CELL_SIZE), this);
             }
+        }
+        if (uncover == 0 && inGame) {
+            inGame = false;
+            statusbar.setText("Game won!");
+        } else if (!inGame) {
+            statusbar.setText("Game lost. Try again!");
         }
     }
     private class MinesAdapter extends MouseAdapter {
@@ -282,11 +283,11 @@ public class Board extends JPanel {
                                 String msg = Integer.toString(minesLeft);
                                 statusbar.setText(msg);
                             } else {
-                                statusbar.setText("No marks left");
+                                statusbar.setText("No marks left. Think twice before marking one!");
                             }
                         } else {
                             field[(cRow * N_COLS) + cCol] -= MARK_FOR_CELL;
-                            minesLeft--;
+                            minesLeft++;
                             String msg = Integer.toString(minesLeft);
                             statusbar.setText(msg);
                         }
