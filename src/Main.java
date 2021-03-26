@@ -14,7 +14,7 @@ public class Main extends JFrame {
         add(new Board(statusbar));
 
         //False: Not being able to resize the window
-        setResizable(false);
+        setResizable(true);
         pack();
 
         setTitle("Minesweeper");

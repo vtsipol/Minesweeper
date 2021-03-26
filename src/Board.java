@@ -22,10 +22,19 @@ public class Board extends JPanel {
     private final int DRAW_WRONG_MARK = 12;
 
     //Beginner = 8x8 (10 mines), Intermediate = 16x16 (40 mines), Expert = 16x30 (99 mines)
-    private final int N_MINES = 40;
-    private final int N_ROWS = 16;
-    private final int N_COLS = 16;
-
+    /*
+    private int N_MINES = 10;
+    private int N_ROWS = 8;
+    private int N_COLS = 8;
+    */
+    private int N_MINES = 40;
+    private int N_ROWS = 16;
+    private int N_COLS = 16;
+    /*
+    private int N_MINES = 99;
+    private int N_ROWS = 16;
+    private int N_COLS = 30;
+    */
     //Width + height of board
     private final int BOARD_WIDTH = N_COLS * CELL_SIZE + 1;
     private final int BOARD_HEIGHT = N_ROWS * CELL_SIZE + 1;
@@ -252,9 +261,10 @@ public class Board extends JPanel {
             inGame = false;
             statusbar.setText("Game won!");
         } else if (!inGame) {
-            statusbar.setText("Game lost. Try again!");
+            statusbar.setText("Game lost!");
         }
     }
+
     private class MinesAdapter extends MouseAdapter {
         @Override
         public void mousePressed(MouseEvent e) {
